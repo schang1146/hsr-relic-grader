@@ -30,9 +30,9 @@ export default function Home() {
   return (
     <main>
       Hello world!
-      <button onClick={startCapture}>Start Capture</button>
-      <button onClick={stopCapture}>Stop Capture</button>
-      <video id="video" ref={videoRef} autoPlay></video>
+      <button className="btn btn-blue" onClick={startCapture}>Start Capture</button>
+      <button className="btn btn-blue" onClick={stopCapture}>Stop Capture</button>
+      <video className="border-solid border-2 border-blue-300" ref={videoRef} autoPlay></video>
     </main>
   )
 }
