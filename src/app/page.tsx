@@ -29,10 +29,10 @@ export default function Home() {
   
   return (
     <main>
-      Hello world!
+      <h1>Honkai Star Rail Relic Scorer</h1>
       <button className="btn btn-blue" onClick={startCapture}>Start Capture</button>
       <button className="btn btn-blue" onClick={stopCapture}>Stop Capture</button>
-      <video className="border-solid border-2 border-blue-300" ref={videoRef} autoPlay></video>
+      <video className="video" ref={videoRef} autoPlay></video>
     </main>
   )
 }

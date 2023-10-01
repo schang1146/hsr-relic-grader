@@ -13,3 +13,7 @@
 .btn-blue:hover {
     @apply bg-blue-700;
 }
+
+.video {
+    @apply w-full border-solid border-2 border-blue-300;
+}
