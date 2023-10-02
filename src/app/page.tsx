@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef } from "react";
+import { cavernRelics } from "./relics";
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -33,6 +34,9 @@ export default function Home() {
       <button className="btn btn-blue" onClick={startCapture}>Start Capture</button>
       <button className="btn btn-blue" onClick={stopCapture}>Stop Capture</button>
       <video className="video" ref={videoRef} autoPlay></video>
+      <select name="cavernRelics" defaultValue={cavernRelics[0].name}>
+        {cavernRelics.map(relic => <option value={relic.name}>{relic.name}</option>)}
+      </select>
     </main>
   )
 }
