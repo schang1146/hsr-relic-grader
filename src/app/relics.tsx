@@ -1,9 +1,14 @@
-export interface cavernRelic {
+export interface CavernRelic {
   id: number;
   name: string;
 }
 
-export const cavernRelics: cavernRelic[] = [
+export interface PlanarOrnament {
+  id: number;
+  name: string;
+}
+
+export const cavernRelics: CavernRelic[] = [
   {
     id: 1,
     name: 'Band of Sizzling Thunder',
@@ -59,5 +64,48 @@ export const cavernRelics: cavernRelic[] = [
   {
     id: 14,
     name: 'Wastelander of Banditry Desert',
+  },
+];
+
+export const planarOrnaments: PlanarOrnament[] = [
+  {
+    id: 1,
+    name: 'Belobog of the Architects',
+  },
+  {
+    id: 2,
+    name: 'Broken Keel',
+  },
+  {
+    id: 3,
+    name: 'Celestial Differentiator',
+  },
+  {
+    id: 4,
+    name: 'Fleet of the Ageless',
+  },
+  {
+    id: 5,
+    name: 'Inert Salsotto',
+  },
+  {
+    id: 6,
+    name: 'Pan-Cosmic Commercial Enterprise',
+  },
+  {
+    id: 7,
+    name: 'Rutilant Arena',
+  },
+  {
+    id: 8,
+    name: 'Space Sealing Station',
+  },
+  {
+    id: 9,
+    name: 'Sprightly Vonwacq',
+  },
+  {
+    id: 10,
+    name: 'Talia: Kingdom of Banditry',
   },
 ];
