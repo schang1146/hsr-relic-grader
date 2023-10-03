@@ -24,6 +24,7 @@ export default function Home() {
   function stopCapture() {
     if (videoRef.current && videoRef.current.srcObject) {
       (videoRef.current.srcObject as MediaStream).getTracks().forEach((track) => track.stop());
+      videoRef.current.srcObject = null;
     }
   }
 
