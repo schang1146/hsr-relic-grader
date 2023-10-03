@@ -29,7 +29,7 @@ export default function Home() {
   }
 
   return (
-    <main className='w-full h-screen px-12 grid grid-cols-1 grid-rows-[60%_40%] gap-4'>
+    <main className='w-full h-screen px-12 grid grid-cols-1 grid-rows-[60%_40%]'>
       <section className='max-h-full flex flex-col items-start justify-start gap-2'>
         <h2>Screen Capture</h2>
         <video className='flex-1 w-full min-h-0 border-solid border border-black' ref={videoRef} autoPlay></video>
