@@ -4,11 +4,41 @@ import { useRef, useState } from 'react';
 
 import { RecognizeResult, createWorker } from 'tesseract.js';
 
-import { cavernRelics } from './relics';
+import { cavernRelics, getRelicRarity } from './relics';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [nSubstats, setNSubstats] = useState<number>(4);
+
+  function getRelicRarityFromVideoFrame(): number {
+    const canvas = document.createElement('canvas');
+    const videoWidth = videoRef.current!.videoWidth;
+    const videoHeight = videoRef.current!.videoHeight;
+    const sourceX = (videoWidth * 370) / 1616;
+    const sourceY = (videoHeight * 167) / 939;
+    canvas.width = 5;
+    canvas.height = 5;
+
+    const canvasContext = canvas.getContext('2d');
+    canvasContext?.drawImage(videoRef.current!, sourceX, sourceY, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+    const imageData = canvasContext?.getImageData(0, 0, canvas.width, canvas.height).data;
+    if (!imageData) {
+      return 0;
+    }
+    for (let i = 0; i < imageData.length; i += 4) {
+      const red = imageData[i];
+      const green = imageData[i + 1];
+      const blue = imageData[i + 2];
+
+      const rarity = getRelicRarity(red, green, blue);
+
+      if (rarity > 0) {
+        return rarity;
+      }
+    }
+
+    return 0;
+  }
 
   function getImageFromVideoFrame(): string {
     const canvas = document.createElement('canvas');
@@ -81,6 +111,9 @@ export default function Home() {
         <form>
           <button className='btn btn-blue' onClick={gradeRelic} type='button'>
             Grade Relic
+          </button>
+          <button className='btn btn-blue' onClick={getRelicRarityFromVideoFrame} type='button'>
+            Grade Relic Rarity
           </button>
           <div>
             <label htmlFor='relics'>Relic Set</label>

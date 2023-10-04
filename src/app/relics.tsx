@@ -9,13 +9,14 @@ export interface PlanarOrnament {
 }
 
 export function getRelicRarity(red: number, green: number, blue: number): number {
-  if (red === 184 && green === 142 && blue === 100) {
+  const acceptableError = 0.05;
+  if (isWithinError(red, 184, acceptableError) && isWithinError(green, 142, acceptableError) && isWithinError(blue, 100, acceptableError)) {
     return 5;
   }
-  if (red === 139 && green === 101 && blue === 198) {
+  if (isWithinError(red, 139, acceptableError) && isWithinError(green, 101, acceptableError) && isWithinError(blue, 198, acceptableError)) {
     return 4;
   }
-  if (red === 85 && green === 124 && blue === 186) {
+  if (isWithinError(red, 85, acceptableError) && isWithinError(green, 124, acceptableError) && isWithinError(blue, 186, acceptableError)) {
     return 3;
   }
   return 0;
@@ -122,3 +123,7 @@ export const planarOrnaments: PlanarOrnament[] = [
     name: 'Talia: Kingdom of Banditry',
   },
 ];
+
+function isWithinError(value: number, expected: number, acceptableError: number) {
+  return expected * (1 - acceptableError) <= value && value <= expected * (1 + acceptableError);
+}
