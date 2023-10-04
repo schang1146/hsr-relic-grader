@@ -1,10 +1,44 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+
+import { RecognizeResult, createWorker } from 'tesseract.js';
+
 import { cavernRelics } from './relics';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [nSubstats, setNSubstats] = useState<number>(4);
+
+  function getImageFromVideoFrame(): string {
+    const canvas = document.createElement('canvas');
+    const videoWidth = videoRef.current!.videoWidth;
+    const videoHeight = videoRef.current!.videoHeight;
+    const sourceX = videoWidth * 0.05;
+    const sourceY = videoHeight * 0.38;
+    const statRowWidth = videoWidth * 0.198;
+    const mainstatRowHeight = videoHeight * 0.046;
+    const substatRowHeight = videoHeight * 0.036;
+    canvas.width = statRowWidth;
+    canvas.height = mainstatRowHeight + nSubstats * substatRowHeight;
+
+    const canvasContext = canvas.getContext('2d');
+    canvasContext?.drawImage(videoRef.current!, sourceX, sourceY, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL('image/png');
+  }
+
+  async function getTextFromImage(imageURL: string) {
+    const worker = await createWorker('eng');
+    const data: RecognizeResult = await worker.recognize(imageURL);
+    const text = data.data.text;
+    await worker.terminate();
+    return text;
+  }
+
+  function gradeRelic() {
+    const canvasURL = getImageFromVideoFrame();
+    getTextFromImage(canvasURL);
+  }
 
   async function startCapture() {
     try {
@@ -45,6 +79,9 @@ export default function Home() {
       <section>
         <h2>Grader</h2>
         <form>
+          <button className='btn btn-blue' onClick={gradeRelic} type='button'>
+            Grade Relic
+          </button>
           <div>
             <label htmlFor='relics'>Relic Set</label>
             <select id='relics' name='relics' defaultValue={cavernRelics[0].name}>
@@ -59,6 +96,13 @@ export default function Home() {
             <label htmlFor='main-stat'>Main Stat</label>
             <input id='main-stat'></input>
           </div>
+          <label htmlFor='n-substats'>Number of Substats</label>
+          <select id='n-substats' defaultValue={nSubstats.toString()} onChange={(e) => setNSubstats(Number(e.target.value))}>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+          </select>
           <div>
             <label htmlFor='sub-stat-1'>Sub Stat 1</label>
             <input id='sub-stat-1'></input>
