@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { RecognizeResult, createWorker } from 'tesseract.js';
 
@@ -8,7 +8,6 @@ import { cavernRelics, getRelicRarity } from './relics';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [nSubstats, setNSubstats] = useState<number>(4);
 
   function getRelicRarityFromVideoFrame(): number {
     const canvas = document.createElement('canvas');
@@ -40,7 +39,7 @@ export default function Home() {
     return 0;
   }
 
-  function getImageFromVideoFrame(): string {
+  function getImageFromVideoFrame(nSubstats: number): string {
     const canvas = document.createElement('canvas');
     const videoWidth = videoRef.current!.videoWidth;
     const videoHeight = videoRef.current!.videoHeight;
@@ -65,9 +64,27 @@ export default function Home() {
     return text;
   }
 
-  function gradeRelic() {
-    const canvasURL = getImageFromVideoFrame();
-    getTextFromImage(canvasURL);
+  async function gradeRelic() {
+    const rarity = getRelicRarityFromVideoFrame();
+    const canvasURL = getImageFromVideoFrame(rarity - 1);
+    const rawStatText = await getTextFromImage(canvasURL);
+
+    const relicStats = rawStatText
+      .trim()
+      .split('\n')
+      .filter((statString) => {
+        const isLastCharValid = statString[statString.length - 1].match(/[1-9%]/g);
+        return isLastCharValid ? isLastCharValid.length > 0 : false;
+      })
+      .map((statString) => {
+        const lastIndexOfString = statString.lastIndexOf(' ');
+        return {
+          stat: statString.slice(0, lastIndexOfString),
+          value: statString.slice(lastIndexOfString + 1),
+        };
+      });
+
+    console.log(relicStats);
   }
 
   async function startCapture() {
@@ -112,9 +129,6 @@ export default function Home() {
           <button className='btn btn-blue' onClick={gradeRelic} type='button'>
             Grade Relic
           </button>
-          <button className='btn btn-blue' onClick={getRelicRarityFromVideoFrame} type='button'>
-            Grade Relic Rarity
-          </button>
           <div>
             <label htmlFor='relics'>Relic Set</label>
             <select id='relics' name='relics' defaultValue={cavernRelics[0].name}>
@@ -130,12 +144,12 @@ export default function Home() {
             <input id='main-stat'></input>
           </div>
           <label htmlFor='n-substats'>Number of Substats</label>
-          <select id='n-substats' defaultValue={nSubstats.toString()} onChange={(e) => setNSubstats(Number(e.target.value))}>
+          {/* <select id='n-substats' defaultValue={nSubstats.toString()} onChange={(e) => setNSubstats(Number(e.target.value))}>
             <option value='1'>1</option>
             <option value='2'>2</option>
             <option value='3'>3</option>
             <option value='4'>4</option>
-          </select>
+          </select> */}
           <div>
             <label htmlFor='sub-stat-1'>Sub Stat 1</label>
             <input id='sub-stat-1'></input>
