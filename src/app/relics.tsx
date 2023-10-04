@@ -8,6 +8,19 @@ export interface PlanarOrnament {
   name: string;
 }
 
+export function getRelicRarity(red: number, green: number, blue: number): number {
+  if (red === 184 && green === 142 && blue === 100) {
+    return 5;
+  }
+  if (red === 139 && green === 101 && blue === 198) {
+    return 4;
+  }
+  if (red === 85 && green === 124 && blue === 186) {
+    return 3;
+  }
+  return 0;
+}
+
 export const cavernRelics: CavernRelic[] = [
   {
     id: 1,
