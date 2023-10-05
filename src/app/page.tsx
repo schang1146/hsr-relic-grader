@@ -125,46 +125,48 @@ export default function Home() {
       </section>
       <section>
         <h2>Grader</h2>
-        <form>
-          <button className='btn btn-blue' onClick={gradeRelic} type='button'>
+        <div>
+          <button className='btn btn-blue' onClick={gradeRelic}>
             Grade Relic
           </button>
-          <div>
-            <label htmlFor='relics'>Relic Set</label>
-            <select id='relics' name='relics' defaultValue={cavernRelics[0].name}>
-              {cavernRelics.map((relic) => (
-                <option key={relic.id} value={relic.name}>
-                  {relic.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor='main-stat'>Main Stat</label>
-            <input id='main-stat'></input>
-          </div>
-          <label htmlFor='n-substats'>Number of Substats</label>
-          <div>
-            <label htmlFor='sub-stat-1'>Sub Stat 1</label>
-            <input id='sub-stat-1'></input>
-            <label htmlFor='sub-stat-1-val'>Value</label>
-            <input id='sub-stat-1-val'></input>
-            <label htmlFor='sub-stat-2'>Sub Stat 2</label>
-            <input id='sub-stat-2'></input>
-            <label htmlFor='sub-stat-2-val'>Value</label>
-            <input id='sub-stat-2-val'></input>
-          </div>
-          <div>
-            <label htmlFor='sub-stat-3'>Sub Stat 3</label>
-            <input id='sub-stat-3'></input>
-            <label htmlFor='sub-stat-3-val'>Value</label>
-            <input id='sub-stat-3-val'></input>
-            <label htmlFor='sub-stat-4'>Sub Stat 4</label>
-            <input id='sub-stat-4'></input>
-            <label htmlFor='sub-stat-4-val'>Value</label>
-            <input id='sub-stat-4-val'></input>
-          </div>
-        </form>
+          <h3>Main Stat</h3>
+          <ul>
+            <li>
+              <span>Def %</span>
+              <span>+1</span>
+              <span>10%</span>
+            </li>
+          </ul>
+          <h3>Sub Stats</h3>
+          <ul>
+            <li>
+              <span>Def %</span>
+              <span>+1</span>
+              <span>10%</span>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <span>Def %</span>
+              <span>+1</span>
+              <span>10%</span>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <span>Def %</span>
+              <span>+1</span>
+              <span>10%</span>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <span>Def %</span>
+              <span>+1</span>
+              <span>10%</span>
+            </li>
+          </ul>
+        </div>
         <div>
           <h3>Grade:</h3>
           <h4>C</h4>
