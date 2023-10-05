@@ -144,12 +144,6 @@ export default function Home() {
             <input id='main-stat'></input>
           </div>
           <label htmlFor='n-substats'>Number of Substats</label>
-          {/* <select id='n-substats' defaultValue={nSubstats.toString()} onChange={(e) => setNSubstats(Number(e.target.value))}>
-            <option value='1'>1</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-          </select> */}
           <div>
             <label htmlFor='sub-stat-1'>Sub Stat 1</label>
             <input id='sub-stat-1'></input>
