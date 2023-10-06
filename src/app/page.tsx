@@ -1,13 +1,14 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import { RecognizeResult, createWorker } from 'tesseract.js';
 
-import { cavernRelics, getRelicRarity } from './relics';
+import { RelicStat, getRelicRarity } from './relics';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [relicStats, setRelicStats] = useState<RelicStat[]>([]);
 
   function getRelicRarityFromVideoFrame(): number {
     const canvas = document.createElement('canvas');
@@ -79,12 +80,14 @@ export default function Home() {
       .map((statString) => {
         const lastIndexOfString = statString.lastIndexOf(' ');
         return {
-          stat: statString.slice(0, lastIndexOfString),
-          value: statString.slice(lastIndexOfString + 1),
+          type: statString.slice(0, lastIndexOfString),
+          value: statString[statString.length - 1] === '%' ? Number(statString.slice(lastIndexOfString, statString.length - 1)) : Number(statString.slice(lastIndexOfString, statString.length)),
+          isPercent: statString[statString.length - 1] === '%',
+          timesIncreased: 0,
         };
       });
 
-    console.log(relicStats);
+    setRelicStats(relicStats);
   }
 
   async function startCapture() {
@@ -132,39 +135,28 @@ export default function Home() {
           <h3>Main Stat</h3>
           <ul>
             <li>
-              <span>Def %</span>
-              <span>+1</span>
-              <span>10%</span>
+              <span>{relicStats.length && relicStats[0].type}</span>
+              <span>+{relicStats.length && relicStats[0].timesIncreased}</span>
+              <span>
+                {relicStats.length && relicStats[0].value}
+                {relicStats.length && relicStats[0].isPercent ? '%' : ''}
+              </span>
             </li>
           </ul>
           <h3>Sub Stats</h3>
           <ul>
-            <li>
-              <span>Def %</span>
-              <span>+1</span>
-              <span>10%</span>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <span>Def %</span>
-              <span>+1</span>
-              <span>10%</span>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <span>Def %</span>
-              <span>+1</span>
-              <span>10%</span>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <span>Def %</span>
-              <span>+1</span>
-              <span>10%</span>
-            </li>
+            {relicStats.slice(1).map((relicStat) => {
+              return (
+                <li>
+                  <span>{relicStat.type}</span>
+                  <span>+{relicStat.timesIncreased}</span>
+                  <span>
+                    {relicStat.value}
+                    {relicStat.isPercent ? '%' : ''}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div>

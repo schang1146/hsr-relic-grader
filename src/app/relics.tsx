@@ -8,6 +8,13 @@ export interface PlanarOrnament {
   name: string;
 }
 
+export interface RelicStat {
+  type: string;
+  value: number;
+  isPercent: boolean;
+  timesIncreased: number;
+}
+
 export function getRelicRarity(red: number, green: number, blue: number): number {
   const acceptableError = 0.05;
   if (isWithinError(red, 184, acceptableError) && isWithinError(green, 142, acceptableError) && isWithinError(blue, 100, acceptableError)) {
