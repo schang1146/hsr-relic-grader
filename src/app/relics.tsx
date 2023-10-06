@@ -8,7 +8,13 @@ export interface PlanarOrnament {
   name: string;
 }
 
-export interface RelicStat {
+export interface RelicMainStat {
+  type: string;
+  value: number;
+  isPercent: boolean;
+}
+
+export interface RelicSubStat {
   type: string;
   value: number;
   isPercent: boolean;

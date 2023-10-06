@@ -4,11 +4,11 @@ import { useRef, useState } from 'react';
 
 import { RecognizeResult, createWorker } from 'tesseract.js';
 
-import { RelicStat, getRelicRarity } from './relics';
+import { RelicSubStat, getRelicRarity } from './relics';
 
 export default function Home() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [relicStats, setRelicStats] = useState<RelicStat[]>([]);
+  const [relicStats, setRelicStats] = useState<RelicSubStat[]>([]);
 
   function getRelicRarityFromVideoFrame(): number {
     const canvas = document.createElement('canvas');
@@ -136,7 +136,6 @@ export default function Home() {
           <ul>
             <li>
               <span>{relicStats.length && relicStats[0].type}</span>
-              <span>+{relicStats.length && relicStats[0].timesIncreased}</span>
               <span>
                 {relicStats.length && relicStats[0].value}
                 {relicStats.length && relicStats[0].isPercent ? '%' : ''}
